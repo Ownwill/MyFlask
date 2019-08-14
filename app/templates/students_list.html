@@ -1,0 +1,29 @@
+{% extends 'blank.html' %}
+
+{% block container %}
+    <div >
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>姓名</th>
+                    <th>年龄</th>
+                    <th>成绩</th>
+                    <th>操作</th>
+                </tr>
+
+            </thead>
+            <tbody>
+                {% for stu in student_list%}
+                <tr>
+                    <th>{{ stu.name.zfill(3) }}</th>
+                    <th>{{ stu.age }}</th>
+                    <th>{{ stu.score }}</th>
+
+                    <th class="btn btn-danger">开除</th>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

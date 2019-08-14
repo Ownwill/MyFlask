@@ -1,0 +1,72 @@
+{% extends 'blank.html' %}
+
+{% block container %}
+    <!--判断是教师还是学生-->
+    {% if request.cookies.get('identity') == '1' %}
+        <!--判断教师是否填写详细信息-->
+        <h1>教师{{ request.cookies.get('identity_id') }}</h1>
+        {% if request.cookies.get('identity_id') %}
+            <!--教师填写完信息的话，就展示教师的个人信息-->
+                <h1>填写完个人信息的教师</h1>
+                        <div class="card position-relative">
+                <div class="card-header py-3">
+                  <h6 class="m-0 font-weight-bold text-primary" style="text-align: center">{{ request.cookies.get('username') }}老师，请填写个人详细信息</h6>
+                </div>
+                <div class="card-body" style="text-align: center">
+                   <h3>姓名{{ teacher.id }}</h3>
+                    <h3>性别{{ teacher.gender }}</h3>
+                    <h3>年龄{{ teacher.age }}</h3>
+                    <h3>课程{{ teacher.course_id }}</h3>
+                </div>
+              </div>
+
+        {% else %}
+
+            <!--教师未填写个人信息的话就填写提交个人信息-->
+            <div class="card position-relative">
+                <div class="card-header py-3">
+                  <h6 class="m-0 font-weight-bold text-primary" style="text-align: center">{{ request.cookies.get('username') }}老师，请填写个人详细信息</h6>
+                </div>
+                <div class="card-body" style="text-align: center">
+                    <form action="/index/" method="post">
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                        <div>
+                            <input type="text" name="username" class="form-control form-control-user" placeholder="姓名">
+                        </div>
+                        <br>
+                        <div>
+                        <input type="text" name="age" class="form-control form-control-user" placeholder="年龄">
+                        </div>
+                        <br>
+                        <div>
+                            <select class="form-control form-control-user" name="gender" id="" >
+                                <option value="0">男</option>
+                                <option value="1">女</option>
+                                <option value="-1">保密</option>
+                                <!--<input type="text" name="gender" class="form-control form-control-user" placeholder="性别">-->
+                            </select>
+                        </div>
+                        <br>
+
+                        <div>
+                            <select class="form-control-user form-control" name="course" id="#">
+                                {% for k,v in cou_dict.items() %}
+                                <option value="{{ k }}">{{ v }}</option>
+                                {% endfor %}
+
+                            </select>
+                        <!--<input type="text" name="course" class="form-control form-control-user" placeholder="课程">-->
+                        </div>
+                        <br>
+                        <input type="submit" class="btn btn-primary btn-block" value="提交">
+                    </form>
+                </div>
+              </div>
+
+        {% endif %}
+    {% else %}
+    <h1>学生</h1>
+    {% endif %}
+
+
+{% endblock %}
